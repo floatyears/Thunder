@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/Lightning/!svn/ver/45/Lightning/src/cn/thunder/plane
+END
+Enemy.as
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Lightning/!svn/ver/53/Lightning/src/cn/thunder/plane/Enemy.as
+END
+FirstBoss.as
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Lightning/!svn/ver/54/Lightning/src/cn/thunder/plane/FirstBoss.as
+END
+Plane.as
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Lightning/!svn/ver/42/Lightning/src/cn/thunder/plane/Plane.as
+END
+SteerEnemyPlane.as
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Lightning/!svn/ver/45/Lightning/src/cn/thunder/plane/SteerEnemyPlane.as
+END
+SeekEnemyPlane.as
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Lightning/!svn/ver/44/Lightning/src/cn/thunder/plane/SeekEnemyPlane.as
+END
+Player.as
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Lightning/!svn/ver/55/Lightning/src/cn/thunder/plane/Player.as
+END
