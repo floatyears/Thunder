@@ -1,0 +1,305 @@
+/**
+ * 雷电项目的主程序，所有显示运行等都在此程序中进行
+ * @author：林孟涛 2012-04-23
+ * @alter：
+ * 
+ */
+package
+{
+	import Collision.*;
+	import Collision.Collision;
+	
+	import cn.team.classes.*;
+	import cn.team.classes.Enemy;
+	import cn.team.constUtil.ConstUtil;
+	
+	import flash.display.Graphics;
+	import flash.display.Loader;
+	import flash.display.Sprite;
+	import flash.display.StageScaleMode;
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.net.URLRequest;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
+	import flash.ui.Keyboard;
+	import Collision.*;
+	
+	[SWF(width='500',height='600')]
+	public class Lightning extends Sprite
+	{
+		//用来装子弹的Array
+		private var bArray:Array;
+		//用来装飞机的Array
+		private var pArray:Array;
+		//判断是否按了向上的按键
+		private var bU:Boolean = false;
+		//判断是否按了向右的按键
+		private var bR:Boolean = false;
+		//判断是否按了向下的按键
+		private var bD:Boolean = false;
+		//判断是否按了向左的按键
+		private var bL:Boolean = false;
+		//当前的方向
+		private var dir:String = "STOP";
+		//玩家的飞机
+		private var plane:Player;
+		//加载资源的loader
+		private var loader:Loader;
+		//loader进来的资源放入的地方
+		private var context:LoaderContext;
+		
+		private var ePlane:Enemy;
+		
+		public function Lightning()
+		{
+			this.x = ConstUtil.BGX;
+			this.y = ConstUtil.BGY;
+			this.bArray = new Array();
+			this.pArray = new Array();
+			this.init();
+			stage.color = 0xFF000;
+			
+			//addEventListener(CollisionEvent.COLLIDE,checkCollision);
+
+		}
+		
+		/**
+		 * 整个程序初始化方法
+		 * 
+		 */
+		private function init():void {
+			this.stage.frameRate = 60;
+			this.stage.scaleMode = StageScaleMode.NO_SCALE;
+//			var g:Graphics = this.graphics;
+//			g.beginFill(0xffff00);
+//			g.drawRect(0,0,ConstUtil.BGWIDTH,ConstUtil.BGHEIGHT);
+//			g.endFill();
+			this.loadResource("../resource/resource.swf");
+//			for(var i:int = 0;i<10;i++){
+//				this.addChild(new Plane(false,10));
+//			}
+			
+			this.stage.addEventListener(KeyboardEvent.KEY_DOWN,keyPressed);
+			this.stage.addEventListener(KeyboardEvent.KEY_UP,keyRelease);
+			stage.addEventListener(CollisionEvent.COLLIDE,handleCol);
+			
+		}
+		
+		protected function handleCol(event:CollisionEvent):void
+		{
+			// TODO Auto-generated method stub
+			trace('collided');
+		}
+		
+		/**
+		 * 
+		 * @param resourceUrl:
+		 * 
+		 */
+		private function loadResource(resourceUrl:String):void
+		{
+			context = new LoaderContext();
+			context.applicationDomain = ApplicationDomain.currentDomain;
+			loader = new Loader();
+			loader.load(new URLRequest(resourceUrl),context);
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE,addPlane);
+		}
+		
+		protected function addPlane(event:Event):void
+		{
+			trace("hello");
+			plane = new Player(true,100);
+			ePlane = new Enemy();
+			var ePlane2:SteerEnemyPlane = new SteerEnemyPlane();
+			this.addChild(plane);
+			this.addChild(ePlane);
+			this.addChild(ePlane2);
+			addEventListener(Event.ENTER_FRAME,onEnterFrame);
+			
+			function onEnterFrame(event:Event):void
+			{
+				ePlane2.wander();
+				ePlane2.updatePos();
+				//trace('1');
+			}
+			addEventListener(Event.ENTER_FRAME,function(evt:Event):void{
+				checkCollision();
+			});
+			ePlane.collision();
+			//plane.disappear();
+		}
+		
+		/**
+		 * 当按键时触发的事件
+		 * @param event:键盘事件
+		 * 
+		 */
+		protected function keyPressed(event:KeyboardEvent):void
+		{
+			var key:int = event.keyCode;
+			/*if(key == Keyboard.SPACE){
+				plane.addChild(plane.fire());
+			}*/
+			switch(key){
+				case Keyboard.CONTROL:
+					
+					break;
+				case Keyboard.UP:
+					this.bU = true;
+					break;
+				case Keyboard.RIGHT:
+					this.bR = true;
+					break;
+				case Keyboard.DOWN:
+					this.bD = true;
+					break;
+				case Keyboard.LEFT:
+					this.bL = true;
+					break;
+				case Keyboard.SPACE:
+					plane.firing = true;
+					//plane.fire();
+					if(count>=10){
+						this.stage.addChild(plane.fire());
+						count=0;
+					}
+					
+					//this.stage.addEventListener(Event.ENTER_FRAME,fire);
+			}
+			this.locationDirect();
+			this.stage.addEventListener(Event.ENTER_FRAME,nextMove);
+		}
+		
+		private function fire(evt:Event):void
+		{
+			
+			plane.fire();
+		}
+		
+		private function locationDirect():void
+		{
+			if(bL && !bR && !bU && !bD){
+				dir = "L";
+			}else if(bL && !bR && bU && !bD){
+				dir = "LU";
+			}else if(bL && !bR && !bU && bD){
+				dir = "DL";
+			}else if(!bL && bR && !bU && !bD){
+				dir = "R";
+			}else if(!bL && bR && bU && !bD){
+				dir = "UR";
+			}else if(!bL && bR && !bU && bD){
+				dir = "RD";
+			}else if(!bL && !bR && bU && !bD){
+				dir = "U";
+			}else if(!bL && !bR && !bU && bD){
+				dir = "D";
+			}else if(!bL && !bR && !bU && !bD){
+				dir = "STOP";
+			}
+		}
+		
+		private function nextMove(e:Event):void
+		{
+			if(count <=10)
+				count++;
+			this.removeEventListener(Event.ENTER_FRAME,nextMove);
+			switch(dir){
+				case "STOP":
+					plane.playerModel.bitmapData = plane.units["normal"];
+					break;
+				case "L":
+					plane.x -= ConstUtil.USERSPEED;
+					
+					plane.playerModel.bitmapData = plane.units["left"];
+					break;
+				case "LU":
+					plane.x -= ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.y -= ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.playerModel.bitmapData = plane.units["left"];
+					break;
+				case "U":
+					plane.y -= ConstUtil.USERSPEED;
+					plane.playerModel.bitmapData = plane.units["normal"];
+					break;
+				case "UR":
+					plane.x += ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.y -= ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.playerModel.bitmapData = plane.units["right"];
+					break;
+				case "R":
+					plane.x += ConstUtil.USERSPEED;
+					plane.playerModel.bitmapData = plane.units["right"];
+					break;
+				case "RD":
+					plane.x += ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.y += ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.playerModel.bitmapData = plane.units["right"];
+					break;
+				case "D":
+					plane.y += ConstUtil.USERSPEED;
+					plane.playerModel.bitmapData = plane.units["normal"];
+					break;
+				case "DL":
+					plane.x -= ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.y += ConstUtil.USERSPEED/Math.sqrt(2);
+					plane.playerModel.bitmapData = plane.units["left"];
+					break;
+				if(plane.x<=0)
+					plane.x=0;
+				if(plane.y<=0)
+					plane.y=0;
+				if(plane.x>=this.stage.width)
+					plane.x = this.stage.width;
+				if(plane.y>=this.stage.height)
+					plane.y = this.stage.height;
+				for(var i:uint=0;i<plane.bullets.length;i++){
+					plane.bullets[i].move(0);
+				}
+			}
+		}
+		protected function keyRelease(event:KeyboardEvent):void
+		{
+			var key:int = event.keyCode;
+			switch(key){
+				case Keyboard.UP:
+					this.bU = false;
+					break;
+				case Keyboard.RIGHT:
+					this.bR = false;
+					break;
+				case Keyboard.DOWN:
+					this.bD = false;
+					break;
+				case Keyboard.LEFT:
+					this.bL = false;
+					break;
+				case Keyboard.SPACE:
+					plane.firing = false;
+					var b:Bullets = plane.fire();
+					b.collision();
+					this.stage.addChild(b);
+					break;
+			}
+			this.locationDirect();
+			this.nextMove(event);
+		}
+		
+		
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get _bArray():Array{
+			return bArray;
+		}
+		
+		public function checkCollision():void
+		{
+			var collision:Collision = new Collision(plane.bullets,[ePlane]);
+			collision.checkCollision();
+		}
+	}
+}

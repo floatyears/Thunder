@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/Lightning/!svn/ver/30/Lightning/src/cn/team/classes
+END
+Enemy.as
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Lightning/!svn/ver/28/Lightning/src/cn/team/classes/Enemy.as
+END
+Plane.as
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Lightning/!svn/ver/17/Lightning/src/cn/team/classes/Plane.as
+END
+SteerEnemyPlane.as
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Lightning/!svn/ver/30/Lightning/src/cn/team/classes/SteerEnemyPlane.as
+END
+Explode.as
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Lightning/!svn/ver/35/Lightning/src/cn/team/classes/Explode.as
+END
+SeekEnemyPlane.as
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Lightning/!svn/ver/36/Lightning/src/cn/team/classes/SeekEnemyPlane.as
+END
+Bullets.as
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Lightning/!svn/ver/12/Lightning/src/cn/team/classes/Bullets.as
+END
+Player.as
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Lightning/!svn/ver/18/Lightning/src/cn/team/classes/Player.as
+END

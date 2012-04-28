@@ -1,0 +1,35 @@
+/**
+ * 雷电项目的主程序，所有显示运行等都在此程序中进行
+ * @author：林孟涛 2012-04-23
+ * @alter：
+ * 
+ */
+package
+{
+	import flash.display.Sprite;
+	
+	public class Lightning extends Sprite
+	{
+		//用来装子弹的Array
+		private var bArray:Array;
+		//用来装飞机的Array
+		private var pArray:Array;
+		
+		public function Lightning()
+		{
+			this.bArray = new Array();
+			this.pArray = new Array();
+			
+			
+			
+		}
+		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function get _bArray():Array{
+			return bArray;
+		}
+	}
+}
